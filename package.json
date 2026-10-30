@@ -1,0 +1,12 @@
+{
+  "name": "freecash-triage-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "LLM agent that triages 'missing reward' support tickets using tool calls over event logs.",
+  "scripts": {
+    "triage": "tsx src/cli.ts",
+    "eval": "tsx src/eval.ts",
+    "typecheck": "tsc"
+  }
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "offerId": "off_dragon",
+    "game": "Dragon Realm",
+    "milestone": "Reach level 20",
+    "rewardCoins": 500,
+    "deadlineDays": 30,
+    "typicalConfirmationHours": 48,
+    "minPlausibleMinutes": 600
+  },
+  {
+    "offerId": "off_farm",
+    "game": "Farm Story Saga",
+    "milestone": "Complete chapter 5",
+    "rewardCoins": 800,
+    "deadlineDays": 14,
+    "typicalConfirmationHours": 24,
+    "minPlausibleMinutes": 240
+  },
+  {
+    "offerId": "off_tower",
+    "game": "Tower Siege",
+    "milestone": "Reach town hall level 8",
+    "rewardCoins": 1200,
+    "deadlineDays": 21,
+    "typicalConfirmationHours": 72,
+    "minPlausibleMinutes": 1440
+  },
+  {
+    "offerId": "off_puzzle",
+    "game": "Puzzle Quest Zen",
+    "milestone": "Clear level 300",
+    "rewardCoins": 650,
+    "deadlineDays": 30,
+    "typicalConfirmationHours": 720,
+    "minPlausibleMinutes": 900
+  },
+  {
+    "offerId": "off_coin",
+    "game": "Coin Kingdom",
+    "milestone": "Reach level 50",
+    "rewardCoins": 1500,
+    "deadlineDays": 30,
+    "typicalConfirmationHours": 48,
+    "minPlausibleMinutes": 1800
+  }
+]
