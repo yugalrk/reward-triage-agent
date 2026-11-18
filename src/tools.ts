@@ -3,8 +3,9 @@ import { z } from "zod";
 import { events, offers, REFERENCE_NOW, type UserEvent } from "./data.js";
 
 const HOUR = 3_600_000;
-const hoursBetween = (a: string | Date, b: string | Date) =>
-  Math.round(((new Date(b).getTime() - new Date(a).getTime()) / HOUR) * 10) / 10;
+const msBetween = (a: string | Date, b: string | Date) => new Date(b).getTime() - new Date(a).getTime();
+const hoursBetween = (a: string | Date, b: string | Date) => Math.round((msBetween(a, b) / HOUR) * 10) / 10;
+const minutesBetween = (a: string | Date, b: string | Date) => Math.round(msBetween(a, b) / 60_000);
 
 const firstOf = (list: UserEvent[], type: UserEvent["type"]) => list.find((e) => e.type === type);
 
@@ -62,7 +63,7 @@ export function checkRiskSignals(userId: string) {
     const install = firstOf(mine, "install");
     const milestone = firstOf(mine, "milestone_reached");
     if (!install || !milestone) continue;
-    const minutes = Math.round(hoursBetween(install.timestamp, milestone.timestamp) * 60);
+    const minutes = minutesBetween(install.timestamp, milestone.timestamp);
     if (minutes < offer.minPlausibleMinutes) {
       signals.push(
         `impossible_speed: ${offer.offerId} milestone reached ${minutes} min after install (plausible minimum ${offer.minPlausibleMinutes} min)`,
