@@ -123,16 +123,32 @@ const inputs = {
 
 export type ToolName = keyof typeof inputs;
 
-export function executeTool(name: string, rawInput: unknown): unknown {
+// The agent may only read data about the user who sent the ticket.
+// Offer rules are not personal, so any offer can be looked up.
+export interface ToolScope {
+  userId: string;
+}
+
+function assertSameUser(requested: string, scope: ToolScope) {
+  if (requested !== scope.userId) {
+    throw new Error(`Access denied: this ticket belongs to ${scope.userId}, so data for ${requested} can't be read.`);
+  }
+}
+
+export function executeTool(name: string, rawInput: unknown, scope: ToolScope): unknown {
   switch (name) {
     case "getUserEvents": {
       const i = inputs.getUserEvents.parse(rawInput);
+      assertSameUser(i.userId, scope);
       return getUserEvents(i.userId, i.offerId);
     }
     case "getOfferRules":
       return getOfferRules(inputs.getOfferRules.parse(rawInput).offerId);
-    case "checkRiskSignals":
-      return checkRiskSignals(inputs.checkRiskSignals.parse(rawInput).userId);
+    case "checkRiskSignals": {
+      const i = inputs.checkRiskSignals.parse(rawInput);
+      assertSameUser(i.userId, scope);
+      return checkRiskSignals(i.userId);
+    }
     default:
       throw new Error(`Unknown tool: ${name}`);
   }

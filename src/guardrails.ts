@@ -7,12 +7,19 @@ export const ESCALATION_REPLY =
 
 // Deterministic checks that run after the model. They can only make a verdict
 // more careful (move it to human_review), never give coins.
-export function applyGuardrails(ticket: Ticket, out: TriageOutput): { output: TriageOutput; overrideReason: string | null } {
+export function applyGuardrails(
+  ticket: Ticket,
+  out: TriageOutput,
+  evidence: { checkedEventLog: boolean },
+): { output: TriageOutput; overrideReason: string | null } {
   const escalate = (why: string) => ({
     output: { verdict: "human_review" as const, reason: `[guardrail] ${why} | model said: ${out.verdict}: ${out.reason}`, replyToUser: ESCALATION_REPLY },
     overrideReason: why,
   });
   if (out.verdict === "human_review") return { output: out, overrideReason: null };
+
+  // Any other verdict has to be based on the user's actual event log.
+  if (!evidence.checkedEventLog) return escalate("model answered without reading the user's event log");
 
   const risk = checkRiskSignals(ticket.userId);
   if (risk.flagged) return escalate(`risk signals present: ${risk.signals.join("; ")}`);

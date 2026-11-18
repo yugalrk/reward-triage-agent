@@ -19,11 +19,15 @@ npm run triage -- t04                    # one ticket, with the tool calls shown
 npm run triage -- --user u_bob --offer off_farm "finished chapter 5, no coins"
 npm run eval                             # all tickets, prints accuracy
 npm run eval -- t05 t09                  # a subset
+EVAL_RUNS=3 npm run eval                 # each ticket 3 times, shows unstable answers
 npm test                                 # unit tests, no API key needed
 npm run typecheck
 ```
 
-Requires Node 22 or newer.
+Requires Node 22 or newer. On a company network that inspects HTTPS traffic, Node may fail with
+`unable to get local issuer certificate`. Set `NODE_OPTIONS=--use-system-ca` so Node trusts the same certificates as your operating system.
+
+The eval stops right away on errors that would affect every ticket, such as a bad key or no credits. It also prints the token count and an estimated cost.
 
 ## Two kinds of tests
 
@@ -53,9 +57,12 @@ The data uses a fixed "now" (`2026-10-29T12:00Z`, in `src/data.ts`), so results 
 2. The loop runs the tools (inputs checked with zod), sends the results back, and repeats until Claude gives a final answer.
 3. The final answer must match a JSON schema built from the zod schema. Zod then checks it again, including rules a JSON schema can't express. If the check fails, the error goes back to Claude for one retry. If it fails again, the ticket goes to `human_review`.
 4. Guardrails in plain code run last. They can only move a verdict to `human_review`, never the other way:
+   - The model answered without reading the user's event log.
    - Risk signals are found for the user.
    - The model said `credited`, but there is no postback, or the amount doesn't match the reward.
    - The model refused, hit the token limit, or ran out of turns.
+
+**Data access:** the tools can only read data for the user who sent the ticket. A request for another user's events returns an error. The reply to the user can't contain internal user or device IDs, or mention fraud. If it does, it fails validation and the model gets one retry.
 
 **Safety:** the agent has no tool that gives coins, so it can only read data and recommend a verdict. Fraud signals, payout disputes and manual payout requests go to `human_review`. The ticket text is treated as user data, not as instructions (ticket t09 tests this).
 

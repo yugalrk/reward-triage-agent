@@ -15,33 +15,42 @@ const answer = (verdict: TriageOutput["verdict"]): TriageOutput => ({
   replyToUser: "A friendly reply that is long enough to pass.",
 });
 
+const checked = { checkedEventLog: true };
+
 describe("applyGuardrails", () => {
   it("turns 'credited' without a postback into human_review", () => {
     // t09: u_jack has a click and an install, but no milestone and no postback.
-    const { output, overrideReason } = applyGuardrails(ticket("t09"), answer("credited"));
+    const { output, overrideReason } = applyGuardrails(ticket("t09"), answer("credited"), checked);
     assert.equal(output.verdict, "human_review");
     assert.match(overrideReason ?? "", /no postback_received/);
   });
 
   it("turns 'credited' with the wrong amount into human_review", () => {
     // t11: u_leo was paid 600 of 1200.
-    const { output, overrideReason } = applyGuardrails(ticket("t11"), answer("credited"));
+    const { output, overrideReason } = applyGuardrails(ticket("t11"), answer("credited"), checked);
     assert.equal(output.verdict, "human_review");
     assert.match(overrideReason ?? "", /amount differs/);
   });
 
   it("forces human_review when risk signals exist, whatever the model said", () => {
-    const { output } = applyGuardrails(ticket("t05"), answer("not_eligible"));
+    const { output } = applyGuardrails(ticket("t05"), answer("not_eligible"), checked);
     assert.equal(output.verdict, "human_review");
   });
 
+  it("forces human_review when the model never read the event log", () => {
+    // t02 would otherwise be a clean 'pending'.
+    const { output, overrideReason } = applyGuardrails(ticket("t02"), answer("pending"), { checkedEventLog: false });
+    assert.equal(output.verdict, "human_review");
+    assert.match(overrideReason ?? "", /without reading/);
+  });
+
   it("keeps a correct 'credited' verdict", () => {
-    const { output, overrideReason } = applyGuardrails(ticket("t01"), answer("credited"));
+    const { output, overrideReason } = applyGuardrails(ticket("t01"), answer("credited"), checked);
     assert.equal(output.verdict, "credited");
     assert.equal(overrideReason, null);
   });
 
   it("keeps a 'pending' verdict when nothing is wrong", () => {
-    assert.equal(applyGuardrails(ticket("t02"), answer("pending")).output.verdict, "pending");
+    assert.equal(applyGuardrails(ticket("t02"), answer("pending"), checked).output.verdict, "pending");
   });
 });

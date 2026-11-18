@@ -24,6 +24,25 @@ describe("FinalAnswerSchema", () => {
     assert.equal(result.success, true);
   });
 
+  it("rejects a reply that leaks other accounts' IDs", () => {
+    const result = FinalAnswerSchema.safeParse({
+      verdict: "human_review",
+      reason,
+      replyToUser: "Your device dev_9f3 is also used by u_eve2 and u_eve3, so a specialist will review this.",
+    });
+    assert.equal(result.success, false);
+    assert.ok(result.error!.issues.some((i) => /internal user or device IDs/.test(i.message)));
+  });
+
+  it("rejects a reply that mentions fraud", () => {
+    const result = FinalAnswerSchema.safeParse({
+      verdict: "human_review",
+      reason,
+      replyToUser: "This looks like fraud, so we have sent it to a specialist.",
+    });
+    assert.equal(result.success, false);
+  });
+
   it("rejects an unknown verdict", () => {
     const result = FinalAnswerSchema.safeParse({ verdict: "approved", reason, replyToUser: "Your coins are on the way to you." });
     assert.equal(result.success, false);

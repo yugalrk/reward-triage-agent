@@ -11,6 +11,9 @@ on:
       tickets:
         description: "Ticket IDs to run, separated by spaces (empty = all)"
         default: ""
+      runs:
+        description: "Runs per ticket (more runs show unstable answers, and cost more)"
+        default: "1"
   push:
     branches: [main]
     paths:
@@ -44,11 +47,13 @@ jobs:
         if: env.SKIP_EVAL != '1'
         with:
           node-version: 22
-      - run: npm install
+          cache: npm
+      - run: npm ci
         if: env.SKIP_EVAL != '1'
       - name: Run eval
         if: env.SKIP_EVAL != '1'
         env:
           EVAL_MIN_ACCURACY: ${{ inputs.min_accuracy || '0.9' }}
+          EVAL_RUNS: ${{ inputs.runs || '1' }}
           TICKETS: ${{ inputs.tickets }}
         run: npm run eval -- $TICKETS

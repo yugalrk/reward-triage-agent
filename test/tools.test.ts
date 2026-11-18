@@ -1,6 +1,27 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { checkRiskSignals } from "../src/tools.js";
+import { checkRiskSignals, executeTool } from "../src/tools.js";
+
+describe("executeTool scope", () => {
+  const scope = { userId: "u_jack" };
+
+  it("lets the agent read the ticket owner's events", () => {
+    const result = executeTool("getUserEvents", { userId: "u_jack", offerId: "off_dragon" }, scope) as { events: unknown[] };
+    assert.equal(result.events.length, 2);
+  });
+
+  it("blocks reading another user's events", () => {
+    assert.throws(() => executeTool("getUserEvents", { userId: "u_alice", offerId: "off_dragon" }, scope), /Access denied/);
+  });
+
+  it("blocks risk checks on another user", () => {
+    assert.throws(() => executeTool("checkRiskSignals", { userId: "u_eve" }, scope), /Access denied/);
+  });
+
+  it("allows offer rules for any offer", () => {
+    assert.doesNotThrow(() => executeTool("getOfferRules", { offerId: "off_coin" }, scope));
+  });
+});
 
 describe("checkRiskSignals", () => {
   it("flags four accounts on one device", () => {
