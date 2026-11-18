@@ -1,0 +1,54 @@
+name: Eval
+
+# Calls the Claude API, so it costs a little per run. Runs when started by hand
+# (Actions tab -> Eval -> Run workflow) or when the agent, prompt or data change on main.
+on:
+  workflow_dispatch:
+    inputs:
+      min_accuracy:
+        description: "Fail if final accuracy is below this (0 to 1)"
+        default: "0.9"
+      tickets:
+        description: "Ticket IDs to run, separated by spaces (empty = all)"
+        default: ""
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "data/**"
+
+concurrency:
+  group: eval
+  cancel-in-progress: true
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - name: Check for API key
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+              echo "::error::Add an ANTHROPIC_API_KEY secret under Settings -> Secrets and variables -> Actions."
+              exit 1
+            fi
+            echo "::warning::ANTHROPIC_API_KEY secret is not set, skipping the eval."
+            echo "SKIP_EVAL=1" >> "$GITHUB_ENV"
+          fi
+      - uses: actions/checkout@v4
+        if: env.SKIP_EVAL != '1'
+      - uses: actions/setup-node@v4
+        if: env.SKIP_EVAL != '1'
+        with:
+          node-version: 22
+      - run: npm install
+        if: env.SKIP_EVAL != '1'
+      - name: Run eval
+        if: env.SKIP_EVAL != '1'
+        env:
+          EVAL_MIN_ACCURACY: ${{ inputs.min_accuracy || '0.9' }}
+          TICKETS: ${{ inputs.tickets }}
+        run: npm run eval -- $TICKETS

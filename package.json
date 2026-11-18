@@ -4,9 +4,22 @@
   "private": true,
   "type": "module",
   "description": "LLM agent that triages 'missing reward' support tickets using tool calls over event logs.",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "triage": "tsx src/cli.ts",
     "eval": "tsx src/eval.ts",
+    "test": "tsx --test \"test/**/*.test.ts\"",
     "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.136.0",
+    "zod": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
   }
 }

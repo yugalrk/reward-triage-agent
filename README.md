@@ -19,8 +19,16 @@ npm run triage -- t04                    # one ticket, with the tool calls shown
 npm run triage -- --user u_bob --offer off_farm "finished chapter 5, no coins"
 npm run eval                             # all tickets, prints accuracy
 npm run eval -- t05 t09                  # a subset
+npm test                                 # unit tests, no API key needed
 npm run typecheck
 ```
+
+Requires Node 22 or newer.
+
+## Two kinds of tests
+
+- **Unit tests** (`npm test`, in `test/`) cover the plain code: risk signals, the output schema and the guardrails. They're free, give the same result every time, and need no API key, so they can run on every commit.
+- **The eval** (`npm run eval`) covers Claude's judgment on realistic tickets. It costs API credits and can vary from run to run, so you run it when you change the prompt or the model.
 
 Set `TRIAGE_MODEL` to try another model (default `claude-opus-5-5`).
 
@@ -33,7 +41,8 @@ Set `TRIAGE_MODEL` to try another model (default `claude-opus-5-5`).
 | `data/tickets.json` | 11 complaints, each with an expected verdict |
 | `src/tools.ts` | `getUserEvents`, `getOfferRules`, `checkRiskSignals`, plus their tool definitions |
 | `src/schema.ts` | Zod output schema and extra checks (for example, the reply must not promise coins) |
-| `src/agent.ts` | Agent loop, output validation with one retry, guardrails |
+| `src/agent.ts` | Agent loop, output validation with one retry |
+| `src/guardrails.ts` | Code checks that move risky verdicts to `human_review` |
 | `src/eval.ts` | Runs every ticket and prints accuracy |
 
 The data uses a fixed "now" (`2026-10-29T12:00Z`, in `src/data.ts`), so results stay the same from run to run.
