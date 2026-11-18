@@ -1,0 +1,2 @@
+date,model,prompt,commit,tickets,runs,final,model_alone,core,hard,unstable,cost_usd,file
+2026-11-18T14:33:07.725Z,claude-opus-5-5,dc52d92d,97930b9+changes,18,3,1.000,1.000,1.000,1.000,"",1.53,runs/2026-11-18T14-33-07Z.json

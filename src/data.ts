@@ -32,11 +32,15 @@ export const VerdictSchema = z.enum(["credited", "pending", "not_eligible", "hum
 
 export const TicketSchema = z.object({
   ticketId: z.string(),
+  // core: one clear rule decides it. hard: boundaries, two rules at once, or a misleading message.
+  group: z.enum(["core", "hard"]),
   userId: z.string(),
   offerId: z.string(),
   message: z.string(),
   expectedVerdict: VerdictSchema,
   case: z.string(),
+  // Why the expected verdict is right, for whoever reviews a failure.
+  why: z.string().optional(),
 });
 
 export type Offer = z.infer<typeof OfferSchema>;

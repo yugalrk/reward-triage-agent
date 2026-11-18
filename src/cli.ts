@@ -17,6 +17,7 @@ const ticket =
   user && offer
     ? {
         ticketId: "adhoc",
+        group: "core" as const,
         userId: user,
         offerId: offer,
         message: args.filter((a, i) => !a.startsWith("--") && !args[i - 1]?.startsWith("--")).join(" ") || "I didn't get my coins.",

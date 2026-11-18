@@ -50,5 +50,42 @@
   { "userId": "u_leo", "offerId": "off_tower", "type": "click", "timestamp": "2026-10-01T15:00:00Z", "deviceId": "dev_l1" },
   { "userId": "u_leo", "offerId": "off_tower", "type": "install", "timestamp": "2026-10-01T15:05:00Z", "deviceId": "dev_l1" },
   { "userId": "u_leo", "offerId": "off_tower", "type": "milestone_reached", "timestamp": "2026-10-12T18:00:00Z", "deviceId": "dev_l1" },
-  { "userId": "u_leo", "offerId": "off_tower", "type": "postback_received", "timestamp": "2026-10-14T10:00:00Z", "deviceId": "dev_l1", "payoutCoins": 600 }
+  { "userId": "u_leo", "offerId": "off_tower", "type": "postback_received", "timestamp": "2026-10-14T10:00:00Z", "deviceId": "dev_l1", "payoutCoins": 600 },
+
+  { "userId": "u_omar", "offerId": "off_farm", "type": "click", "timestamp": "2026-10-15T11:30:00Z", "deviceId": "dev_o1" },
+  { "userId": "u_omar", "offerId": "off_farm", "type": "install", "timestamp": "2026-10-15T11:35:00Z", "deviceId": "dev_o1" },
+  { "userId": "u_omar", "offerId": "off_farm", "type": "milestone_reached", "timestamp": "2026-10-29T11:00:00Z", "deviceId": "dev_o1" },
+
+  { "userId": "u_pia", "offerId": "off_dragon", "type": "click", "timestamp": "2026-09-20T10:00:00Z", "deviceId": "dev_p1" },
+  { "userId": "u_pia", "offerId": "off_dragon", "type": "install", "timestamp": "2026-09-20T10:05:00Z", "deviceId": "dev_p1" },
+  { "userId": "u_pia", "offerId": "off_dragon", "type": "milestone_reached", "timestamp": "2026-10-20T11:00:00Z", "deviceId": "dev_p1" },
+
+  { "userId": "u_quinn", "offerId": "off_tower", "type": "click", "timestamp": "2026-10-10T09:00:00Z", "deviceId": "dev_q1" },
+  { "userId": "u_quinn", "offerId": "off_tower", "type": "install", "timestamp": "2026-10-10T09:06:00Z", "deviceId": "dev_q1" },
+  { "userId": "u_quinn", "offerId": "off_tower", "type": "milestone_reached", "timestamp": "2026-10-28T06:00:00Z", "deviceId": "dev_q1" },
+
+  { "userId": "u_rosa", "offerId": "off_farm", "type": "click", "timestamp": "2026-10-02T18:00:00Z", "deviceId": "dev_r1" },
+  { "userId": "u_rosa", "offerId": "off_farm", "type": "install", "timestamp": "2026-10-02T18:04:00Z", "deviceId": "dev_r1" },
+  { "userId": "u_rosa", "offerId": "off_farm", "type": "milestone_reached", "timestamp": "2026-10-09T20:00:00Z", "deviceId": "dev_r1" },
+  { "userId": "u_rosa", "offerId": "off_farm", "type": "postback_received", "timestamp": "2026-10-10T09:00:00Z", "deviceId": "dev_r1", "payoutCoins": 800 },
+
+  { "userId": "u_sam", "offerId": "off_dragon", "type": "click", "timestamp": "2026-10-08T12:00:00Z", "deviceId": "dev_s1" },
+  { "userId": "u_sam", "offerId": "off_dragon", "type": "install", "timestamp": "2026-10-08T12:03:00Z", "deviceId": "dev_s1" },
+  { "userId": "u_sam", "offerId": "off_dragon", "type": "milestone_reached", "timestamp": "2026-10-19T21:00:00Z", "deviceId": "dev_s1" },
+  { "userId": "u_sam", "offerId": "off_dragon", "type": "postback_received", "timestamp": "2026-10-20T08:00:00Z", "deviceId": "dev_s1", "payoutCoins": 500 },
+
+  { "userId": "u_nina", "offerId": "off_dragon", "type": "click", "timestamp": "2026-10-02T16:00:00Z", "deviceId": "dev_n1" },
+  { "userId": "u_nina", "offerId": "off_dragon", "type": "install", "timestamp": "2026-10-02T16:04:00Z", "deviceId": "dev_n1" },
+  { "userId": "u_nina", "offerId": "off_dragon", "type": "install", "timestamp": "2026-10-06T10:30:00Z", "deviceId": "dev_n1" },
+  { "userId": "u_nina", "offerId": "off_dragon", "type": "milestone_reached", "timestamp": "2026-10-16T19:00:00Z", "deviceId": "dev_n1" },
+  { "userId": "u_nina", "offerId": "off_dragon", "type": "postback_rejected", "timestamp": "2026-10-18T09:00:00Z", "deviceId": "dev_n1", "rejectReason": "reinstall_detected: device attribution was reset by a reinstall, user no longer counted as new" },
+  { "userId": "u_nina2", "offerId": "off_dragon", "type": "click", "timestamp": "2026-10-07T16:00:00Z", "deviceId": "dev_n1" },
+  { "userId": "u_nina2", "offerId": "off_dragon", "type": "install", "timestamp": "2026-10-07T16:05:00Z", "deviceId": "dev_n1" },
+  { "userId": "u_nina3", "offerId": "off_dragon", "type": "click", "timestamp": "2026-10-09T16:00:00Z", "deviceId": "dev_n1" },
+
+  { "userId": "u_tom", "offerId": "off_tower", "type": "click", "timestamp": "2026-10-03T13:00:00Z", "deviceId": "dev_t1" },
+  { "userId": "u_tom", "offerId": "off_tower", "type": "install", "timestamp": "2026-10-03T13:05:00Z", "deviceId": "dev_t1" },
+  { "userId": "u_tom", "offerId": "off_tower", "type": "install", "timestamp": "2026-10-08T20:00:00Z", "deviceId": "dev_t1" },
+  { "userId": "u_tom", "offerId": "off_tower", "type": "milestone_reached", "timestamp": "2026-10-18T15:00:00Z", "deviceId": "dev_t1" },
+  { "userId": "u_tom", "offerId": "off_tower", "type": "postback_rejected", "timestamp": "2026-10-20T09:00:00Z", "deviceId": "dev_t1", "rejectReason": "reinstall_detected: device attribution was reset by a reinstall, user no longer counted as new" }
 ]
